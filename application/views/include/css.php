@@ -10,6 +10,9 @@
   <link rel="stylesheet" href="<?php echo base_url('asset/');?>plugins/icheck-bootstrap/icheck-bootstrap.min.css">
   <!-- JQVMap -->
   <link rel="stylesheet" href="<?php echo base_url('asset/');?>plugins/jqvmap/jqvmap.min.css">
+<!-- DataTables -->
+<link rel="stylesheet" href="<?php echo base_url('asset/');?>plugins/datatables-bs4/css/dataTables.bootstrap4.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="<?php echo base_url('asset/');?>dist/css/adminlte.min.css">
   <!-- overlayScrollbars -->
@@ -20,5 +23,3 @@
   <link rel="stylesheet" href="<?php echo base_url('asset/');?>plugins/summernote/summernote-bs4.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-  <!-- DataTables -->
-  <link rel="stylesheet" href="<?php echo base_url('asset/');?>plugins/datatables-bs4/css/dataTables.bootstrap4.css">

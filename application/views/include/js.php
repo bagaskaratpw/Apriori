@@ -20,6 +20,17 @@
 <!-- daterangepicker -->
 <script src="<?php echo base_url('asset/');?>plugins/moment/moment.min.js"></script>
 <script src="<?php echo base_url('asset/');?>plugins/daterangepicker/daterangepicker.js"></script>
+
+<!-- DataTables -->
+<script src="<?php echo base_url('asset');?>/plugins/datatables/jquery.dataTables.js"></script>
+<script src="<?php echo base_url('asset');?>/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.flash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js"></script>
 <!-- Tempusdominus Bootstrap 4 -->
 <script src="<?php echo base_url('asset/');?>plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
 <!-- Summernote -->
@@ -28,10 +39,3 @@
 <script src="<?php echo base_url('asset/');?>plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <!-- AdminLTE App -->
 <script src="<?php echo base_url('asset/');?>dist/js/adminlte.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="<?php echo base_url('asset/');?>dist/js/pages/dashboard.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="<?php echo base_url('asset/');?>dist/js/demo.js"></script>
-<!-- DataTables -->
-<script src="<?php echo base_url('asset');?>/plugins/datatables/jquery.dataTables.js"></script>
-<script src="<?php echo base_url('asset');?>/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>

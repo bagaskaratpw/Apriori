@@ -73,18 +73,18 @@
 								<!-- form start -->
 								<form role="form">
 									<div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-6 col-sm-6 form-group">
-                                                <label for="exampleInputEmail1">Minimum Support</label>
-                                                <input type="text" class="form-control" id="min_sup"
-                                                    placeholder="Minimum Support">
-                                            </div>
-                                            <div class="col-md-6 col-sm-6 form-group">
-                                                <label for="exampleInputPassword1">Minimum Confidence</label>
-                                                <input type="text" class="form-control" id="min_conf"
-                                                    placeholder="Minimum Confidence">
-                                            </div>
-                                        </div>
+										<div class="row">
+											<div class="col-md-6 col-sm-6 form-group">
+												<label for="exampleInputEmail1">Minimum Support</label>
+												<input type="text" class="form-control" id="min_sup"
+													placeholder="Minimum Support">
+											</div>
+											<div class="col-md-6 col-sm-6 form-group">
+												<label for="exampleInputPassword1">Minimum Confidence</label>
+												<input type="text" class="form-control" id="min_conf"
+													placeholder="Minimum Confidence">
+											</div>
+										</div>
 									</div>
 									<!-- /.card-body -->
 
@@ -95,48 +95,48 @@
 							</div>
 							<!-- /.card -->
 						</div>
-                    </div>
-                    <div class="row">
-					<div class="col-12">
-						<div class="card">
-							<div class="card-header">
-								<h2 class="card-title">Daftar Barang</h2>
-
-							</div>
-							<!-- /.card-header -->
-							<div class="card-body">
-
-								<table id="example1" class="table table-bordered table-striped">
-									
-                                <thead>
-														<tr>
-															<th>#</th>
-															<th>No Inv</th>
-															<th>Items</th>
-															<th>Nama Barang</th>
-														</tr>
-													</thead>
-													
-													<tbody>
-													<?php $no=1; foreach($data as $trans) {?>
-														<tr>
-															<td><?php echo $no++; ?></td>
-															<td> <?php echo $trans['no_inv'];?></td>
-															<td> <?php echo $trans['items'];?></td>
-															<td> <?php echo $trans['nama_barang'];?></td>
-														</tr>
-														<?php }?>
-													</tbody>
-								</table>
-								
-							</div>
-							<!-- /.card-body -->
-						</div>
-						<!-- /.card -->
 					</div>
-					<!-- /.col -->
-				</div>
-				<!-- /.row -->
+					<div class="row">
+						<div class="col-12">
+							<div class="card">
+								<div class="card-header">
+									<h2 class="card-title">Data</h2>
+
+								</div>
+								<!-- /.card-header -->
+								<div class="card-body">
+
+									<table id="example1" class="table table-bordered table-striped">
+
+										<thead>
+											<tr>
+												<th>#</th>
+												<th>No Inv</th>
+												<th>Items</th>
+												<th>Nama Barang</th>
+											</tr>
+										</thead>
+
+										<tbody>
+											<?php $no=1; foreach($data as $trans) {?>
+											<tr>
+												<td><?php echo $no++; ?></td>
+												<td> <?php echo $trans['no_inv'];?></td>
+												<td> <?php echo $trans['items'];?></td>
+												<td> <?php echo $trans['nama_barang'];?></td>
+											</tr>
+											<?php }?>
+										</tbody>
+									</table>
+
+								</div>
+								<!-- /.card-body -->
+							</div>
+							<!-- /.card -->
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
 				</div>
 
 			</section>

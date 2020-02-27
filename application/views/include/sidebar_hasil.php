@@ -12,7 +12,7 @@
             </a>
           </li>
           <li class="nav-item  ">
-            <a href="<?php echo base_url('Welcome/daftar_barang');?>" class="nav-link active">
+            <a href="<?php echo base_url('Welcome/daftar_barang');?>" class="nav-link">
               <i class="nav-icon fas fa-database"></i>
               <p>
                 Barang

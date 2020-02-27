@@ -53,7 +53,7 @@
 				<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1>Barang</h1>
+							<!-- <h1>Barang</h1> -->
 						</div>
 
 					</div>
@@ -67,7 +67,6 @@
 						<div class="card">
 							<div class="card-header">
 								<h2 class="card-title">Daftar Barang</h2>
-
 								<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
 									aria-labelledby="exampleModalLabel" aria-hidden="true">
 									<div class="modal-dialog" role="document">
