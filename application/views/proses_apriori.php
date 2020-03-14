@@ -71,18 +71,16 @@
 								</div>
 								<!-- /.card-header -->
 								<!-- form start -->
-								<form role="form">
+								<form action="<?php echo base_url('mining'); ?>" method="GET" role="form">
 									<div class="card-body">
 										<div class="row">
 											<div class="col-md-6 col-sm-6 form-group">
 												<label for="exampleInputEmail1">Minimum Support</label>
-												<input type="text" class="form-control" id="min_sup"
-													placeholder="Minimum Support">
+												<input type="text" class="form-control" id="min_sup" name="min_sup" placeholder="Minimum Support">
 											</div>
 											<div class="col-md-6 col-sm-6 form-group">
 												<label for="exampleInputPassword1">Minimum Confidence</label>
-												<input type="text" class="form-control" id="min_conf"
-													placeholder="Minimum Confidence">
+												<input type="text" class="form-control" id="min_conf" name="min_conf" placeholder="Minimum Confidence">
 											</div>
 										</div>
 									</div>
