@@ -22,16 +22,20 @@ class Mining_model extends CI_Model {
         return $this->db->get();
     }
 
-    public function data_itemset1()
+    public function data_itemset1($sesi)
     {
-        return $this->db->get('itemset1');
+        return $this->db->select('*')
+                        ->from('itemset1')
+                        ->where('session', $sesi)
+                        ->get();
     }
 
-    public function data_itemset1_lolos()
+    public function data_itemset1_lolos($sesi)
     {
         return $this->db->select('id, atribut, jumlah, support, input_support')
                         ->from('itemset1')
                         ->where('lolos', 1)
+                        ->where('session', $sesi)
                         ->get();
     }
 }

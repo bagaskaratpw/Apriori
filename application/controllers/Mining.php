@@ -49,8 +49,9 @@ class Mining extends CI_Controller {
 
     public function mining_itemset1()
     {
-        $data_itemset1  = $this->mining->data_itemset1()->result_array();
-        $data_itemset1_lolos = $this->mining->data_itemset1_lolos()->result_array();
+        $sesi   = session_id();
+        $data_itemset1  = $this->mining->data_itemset1($sesi)->result_array();
+        $data_itemset1_lolos = $this->mining->data_itemset1_lolos($sesi)->result_array();
 
         $data   = [
             'data_itemset1' => $data_itemset1,
