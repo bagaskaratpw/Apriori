@@ -60,4 +60,75 @@ class Mining extends CI_Controller {
 
         $this->load->view('mining_itemset1', $data);
     }
+
+    public function mining2()
+    {
+        $sesi       = session_id();
+        $itemset2 = $this->db->select('*')
+                            ->from('itemset1')
+                            ->where('lolos', 1)
+                            ->where('session', $sesi)
+                            ->get()->result_array();
+        // print_r($itemset2);
+        $itemset2_p = $this->db->select('atribut')
+                            ->from('itemset1')
+                            ->where('lolos', 1)
+                            ->where('session', $sesi)
+                            ->get()->result_array();
+        foreach($itemset2 as $i2)
+        {
+            $arr1[] = $i2['atribut'];
+        }
+        foreach($itemset2_p as $i2p)
+        {
+            $arr2[] = $i2p['atribut'];
+        }
+        // print_r($arr1);
+        // print_r($arr2);
+
+        for($i=0; $i < count($arr1); $i++)
+        {
+            for($j=0; $j < count($arr2); $j++)
+            {
+                $x = $arr1[$i];
+                $y  = $arr2[$j];
+                if($x === $y)
+                {
+                    continue;
+                }
+                $a = $x.','.$y;
+                $b = $y.','.$x;
+                $c = $a <=> $b;
+                if($c == 1)
+                {
+                    continue;
+                }
+                echo $a."<br>";
+            }
+        }
+    }
+
+    public function tes()
+    {
+        $arr1 = ['A','B','C','D','E'];
+        $arr2 = ['A','B','C','D','E'];
+        print_r($arr1);
+        for ($i=0; $i < count($arr1); $i++) {
+            for ($j=0; $j < count($arr2); $j++) {
+                $x = $arr1[$i];
+                $y = $arr2[$j];
+                if ($x === $y ) {
+                    continue;
+                }
+                $a = $x.','.$y;
+                $b = $y.','.$x;
+                $c = $a <=> $b;
+                if ($c == 1) {
+                    continue;
+                }
+                echo $a;
+                echo '<br>';
+            } 
+        }
+    }
 }
