@@ -99,7 +99,7 @@
 							<div class="card">
 								<div class="card-header">
 									<h2 class="card-title">Data</h2>
-
+									<a href="<?php echo base_url('welcome/update_data_apriori') ?>" class="float-right badge badge-success">Update Data</a>
 								</div>
 								<!-- /.card-header -->
 								<div class="card-body">

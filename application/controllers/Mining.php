@@ -40,10 +40,20 @@ class Mining extends CI_Controller {
                 'session'   => session_id()
             ];
         }
+        
         if(!empty($data_insert))
         {
             $this->db->insert_batch('itemset1', $data_insert);
         }
+
+        // Set Session
+        $session    = [
+            'min_sup'   => $this->input->post('min_sup'),
+            'min_conf'  => $this->input->post('min_conf'),
+            'sesi_id'   => session_id()
+        ];
+        $this->session->set_userdata($session);
+
         redirect(base_url('mining/mining_itemset1'));   
     }
 
@@ -64,6 +74,7 @@ class Mining extends CI_Controller {
     public function mining2()
     {
         $sesi       = session_id();
+        $jumlah_transaksi   = $this->mining->jumlah_transaksi()->row_array();
         $itemset2 = $this->db->select('*')
                             ->from('itemset1')
                             ->where('lolos', 1)
@@ -83,8 +94,6 @@ class Mining extends CI_Controller {
         {
             $arr2[] = $i2p['atribut'];
         }
-        // print_r($arr1);
-        // print_r($arr2);
 
         for($i=0; $i < count($arr1); $i++)
         {
@@ -103,9 +112,41 @@ class Mining extends CI_Controller {
                 {
                     continue;
                 }
-                echo $a."<br>";
+                $data[]   = explode(',', $a);
             }
         }
+        print_r($this->session->userdata());
+        // foreach($data as $p)
+        // {
+        //     $get  = $this->db->select('COUNT(items) AS jumlah')
+        //                 ->from('itemset')
+        //                 ->like('items', $p[0])
+        //                 ->like('items', $p[1])
+        //                 ->get()->row_array();
+        //     $data_insert[]  = [
+        //         'atribut1'  => $p[0],
+        //         'atribut2'  => $p[1],
+        //         'jumlah'    => $get['jumlah'],
+        //         'support'   => $supp = round($get['jumlah']/$jumlah_transaksi['total']*100, 2),
+        //         'lolos'     => $supp < 15 ? 0 : 1,
+        //         'session'   => $sesi,
+        //     ];
+        // }
+        // if(!empty($data_insert))
+        // {
+        //     $this->db->insert_batch('itemset2', $data_insert);
+        // }
+        // redirect(base_url('welcome/pros_apr'));
+    }
+
+    public function find_itemset2()
+    {
+        $a  = $this->db->select('COUNT(items) AS jumlah')
+                        ->from('itemset')
+                        ->like('items', 1001)
+                        ->like('items', 1019)
+                        ->get()->row_array();
+        print_r($a);
     }
 
     public function tes()
