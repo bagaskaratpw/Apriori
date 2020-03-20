@@ -138,11 +138,14 @@
                                                     <?php echo $item1['jumlah_items'];?>
                                                 </td>
                                                 <th>
-                                                    <?php
-                                                $hitung = $item1['jumlah_items'] / $total_transaksi['total'] * 100;
-                                                echo round($hitung, 2)." %";
-                                                ?>
+                                                <?php
+													$hitung = $item1['jumlah_items'] / $total_transaksi['total'] * 100;
+													echo $item1['jumlah_items']. " / ". $total_transaksi['total']. " * 100% = ". round($hitung, 2)." %";
+													?>
                                                 </th>
+                                                <td>
+                                                    
+                                                </td>
                                             </tr>
                                             <?php }?>
                                     </tbody>
@@ -185,10 +188,10 @@
                                                     <?php echo $item1['jumlah_items'];?>
                                                 </td>
                                                 <th>
-                                                    <?php
-                                                $hitung = $item1['jumlah_items'] / $total_transaksi['total'] * 100;
-                                                echo round($hitung, 2)." %";
-                                                ?>
+                                                <?php
+													$hitung = $item1['jumlah_items'] / $total_transaksi['total'] * 100;
+													echo $item1['jumlah_items']. " / ". $total_transaksi['total']. " * 100% = ". round($hitung, 2)." %";
+													?>
                                                 </th>
                                             </tr>
                                             <?php }?>
@@ -224,10 +227,10 @@
         <script>
             $(document).ready(function() {
                 $('#example1').DataTable({
-					dom: 'Bfrtip',
-					buttons: [
-						'copy', 'csv', 'excel', 'pdf', 'print'
-					]
+					// dom: 'Bfrtip',
+					// buttons: [
+					// 	'copy', 'csv', 'excel', 'pdf', 'print'
+					// ]
 				});
                 $('#example2').DataTable();
                 $('#example3').DataTable();
