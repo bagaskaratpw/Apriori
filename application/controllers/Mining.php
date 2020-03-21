@@ -50,6 +50,7 @@ class Mining extends CI_Controller {
         $session    = [
             'min_sup'   => $this->input->post('min_sup'),
             'min_conf'  => $this->input->post('min_conf'),
+            'total_transaksi'   => $jumlah_transaksi['total'],
             'sesi_id'   => session_id()
         ];
         $this->session->set_userdata($session);
@@ -71,7 +72,7 @@ class Mining extends CI_Controller {
         $this->load->view('mining_itemset1', $data);
     }
 
-    public function mining2()
+    public function proses_itemset2()
     {
         $sesi       = session_id();
         $jumlah_transaksi   = $this->mining->jumlah_transaksi()->row_array();
@@ -80,7 +81,7 @@ class Mining extends CI_Controller {
                             ->where('lolos', 1)
                             ->where('session', $sesi)
                             ->get()->result_array();
-        // print_r($itemset2);
+        
         $itemset2_p = $this->db->select('atribut')
                             ->from('itemset1')
                             ->where('lolos', 1)
@@ -115,28 +116,47 @@ class Mining extends CI_Controller {
                 $data[]   = explode(',', $a);
             }
         }
-        print_r($this->session->userdata());
-        // foreach($data as $p)
-        // {
-        //     $get  = $this->db->select('COUNT(items) AS jumlah')
-        //                 ->from('itemset')
-        //                 ->like('items', $p[0])
-        //                 ->like('items', $p[1])
-        //                 ->get()->row_array();
-        //     $data_insert[]  = [
-        //         'atribut1'  => $p[0],
-        //         'atribut2'  => $p[1],
-        //         'jumlah'    => $get['jumlah'],
-        //         'support'   => $supp = round($get['jumlah']/$jumlah_transaksi['total']*100, 2),
-        //         'lolos'     => $supp < 15 ? 0 : 1,
-        //         'session'   => $sesi,
-        //     ];
-        // }
-        // if(!empty($data_insert))
-        // {
-        //     $this->db->insert_batch('itemset2', $data_insert);
-        // }
-        // redirect(base_url('welcome/pros_apr'));
+        // print_r($this->session->userdata());
+        foreach($data as $p)
+        {
+            $get  = $this->db->select('COUNT(items) AS jumlah')
+                        ->from('itemset')
+                        ->like('items', $p[0])
+                        ->like('items', $p[1])
+                        ->get()->row_array();
+            $data_insert[]  = [
+                'atribut1'  => $p[0],
+                'atribut2'  => $p[1],
+                'jumlah'    => $get['jumlah'],
+                'support'   => $supp = round($get['jumlah']/$jumlah_transaksi['total']*100, 2),
+                'input_support' => $this->session->userdata('min_sup'),
+                'lolos'     => $supp < $this->session->userdata('min_sup') ? 0 : 1,
+                'session'   => $this->session->userdata('sesi_id'),
+            ];
+        }
+        if(!empty($data_insert))
+        {
+            $this->db->insert_batch('itemset2', $data_insert);
+        }
+        redirect(base_url('mining/mining_itemset2'));
+    }
+
+    public function mining_itemset2()
+    {
+        $sesi   = session_id();
+        $data_itemset1  = $this->mining->data_itemset1($sesi)->result_array();
+        $data_itemset1_lolos = $this->mining->data_itemset1_lolos($sesi)->result_array();
+        $data_itemset2  = $this->mining->data_itemset2($sesi)->result_array();
+        $data_itemset2_lolos = $this->mining->data_itemset2_lolos($sesi)->result_array();
+
+        $data   = [
+            'data_itemset1' => $data_itemset1,
+            'data_itemset1_lolos'   => $data_itemset1_lolos,
+            'data_itemset2' => $data_itemset2,
+            'data_itemset2_lolos'   => $data_itemset2_lolos,
+        ];
+
+        $this->load->view('mining_itemset2', $data);
     }
 
     public function find_itemset2()

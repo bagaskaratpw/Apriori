@@ -69,7 +69,7 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        <table class="table table-bordered" id="datatable">
+                                        <table class="table table-bordered" id="datatable1">
                                             <thead>
                                                 <tr>
                                                     <th>Kode Item</th>
@@ -105,7 +105,7 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        <table class="table table-bordered" id="datatable">
+                                        <table class="table table-bordered" id="datatable1_">
                                             <thead>
                                                 <tr>
                                                     <th>Kode Item</th>
@@ -133,10 +133,89 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="col">
-                            <a href="<?php echo base_url('mining/proses_itemset2'); ?>" class="btn btn-primary mb-3">Proses Itemset 2</a>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    Itemset 2
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" id="datatable2">
+                                            <thead>
+                                                <tr>
+                                                    <th>Kode Item (Atribut 1)</th>
+                                                    <th>Kode Item (Atribut 2)</th>
+                                                    <th>Jumlah</th>
+                                                    <th>Support</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach($data_itemset2 as $d2): ?>
+                                                <tr>
+                                                    <td>
+                                                        <?php echo $d2['atribut1']; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $d2['atribut2']; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $d2['jumlah']; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $d2['support'] ?>
+                                                    </td>
+                                                </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+
+                        <div class="col-12">
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    Itemset 2 Lolos
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" id="datatable2_">
+                                            <thead>
+                                                <tr>
+                                                    <th>Kode Item (Atribut 1)</th>
+                                                    <th>Kode Item (Atribut 2)</th>
+                                                    <th>Jumlah</th>
+                                                    <th>Support</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach($data_itemset2_lolos as $d2_): ?>
+                                                <tr>
+                                                    <td>
+                                                        <?php echo $d2_['atribut1']; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $d2_['atribut2']; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $d2_['jumlah']; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $d2_['support'] ?>
+                                                    </td>
+                                                </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
@@ -162,7 +241,10 @@
         <!-- page script -->
         <script>
             $(function() {
-                $('#datatable').DataTable();
+                $('#datatable1').DataTable();
+                $('#datatable1_').DataTable();
+                $('#datatable2').DataTable();
+                $('#datatable2_').DataTable();
             });
         </script>
 

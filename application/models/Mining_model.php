@@ -38,4 +38,21 @@ class Mining_model extends CI_Model {
                         ->where('session', $sesi)
                         ->get();
     }
+
+    public function data_itemset2($sesi)
+    {
+        return $this->db->select('*')
+                        ->from('itemset2')
+                        ->where('session', $sesi)
+                        ->get();
+    }
+
+    public function data_itemset2_lolos($sesi)
+    {
+        return $this->db->select('id, atribut1, atribut2, jumlah, support, input_support')
+                        ->from('itemset2')
+                        ->where('lolos', 1)
+                        ->where('session', $sesi)
+                        ->get();
+    }
 }
