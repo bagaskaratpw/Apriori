@@ -55,6 +55,9 @@ class Mining extends CI_Controller {
         ];
         $this->session->set_userdata($session);
 
+        // Proses Itemset 2
+        $this->proses_itemset2();
+
         redirect(base_url('mining/mining_itemset1'));   
     }
 
@@ -63,10 +66,14 @@ class Mining extends CI_Controller {
         $sesi   = session_id();
         $data_itemset1  = $this->mining->data_itemset1($sesi)->result_array();
         $data_itemset1_lolos = $this->mining->data_itemset1_lolos($sesi)->result_array();
+        $data_itemset2  = $this->mining->data_itemset2($sesi)->result_array();
+        $data_itemset2_lolos = $this->mining->data_itemset2_lolos($sesi)->result_array();
 
         $data   = [
             'data_itemset1' => $data_itemset1,
             'data_itemset1_lolos'   => $data_itemset1_lolos,
+            'data_itemset2' => $data_itemset2,
+            'data_itemset2_lolos'   => $data_itemset2_lolos,
         ];
 
         $this->load->view('mining_itemset1', $data);
@@ -136,9 +143,9 @@ class Mining extends CI_Controller {
         }
         if(!empty($data_insert))
         {
-            $this->db->insert_batch('itemset2', $data_insert);
+            return $this->db->insert_batch('itemset2', $data_insert);
         }
-        redirect(base_url('mining/mining_itemset2'));
+        // redirect(base_url('mining/mining_itemset2'));
     }
 
     public function mining_itemset2()
