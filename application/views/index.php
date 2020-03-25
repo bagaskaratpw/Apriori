@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 3 | Dashboard</title>
+  <title>Samakita | Dashboard</title>
   <?php $this->load->view('include/css');?>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
