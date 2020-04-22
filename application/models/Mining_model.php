@@ -3,6 +3,13 @@ defined('BASEPATH') OR exit('No Direct Script Access Allowed');
 
 class Mining_model extends CI_Model {
 
+    public function data_itemset()
+    {
+        return $this->db->select('id, no_inv, nama_barang')
+                        ->from('itemset')
+                        ->get();
+    }
+
     public function jumlah_apriori()
     {
         $this->db->select(

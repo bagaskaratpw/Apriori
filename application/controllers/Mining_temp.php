@@ -253,63 +253,104 @@ class Mining extends CI_Controller {
         // {
         //     echo $p;
         // }
-	}
-	
-	public function tes3()
-	{
-		$item1 = $this->db->select('atribut1')
-							->distinct()
-							->from('itemset2')
-							->where('lolos', 1)
-							->where('session', session_id())				
-							->get()
-							->result_array();
-		$item2 = $this->db->select('atribut2')
-							->distinct()
-							->from('itemset2')
-							->where('lolos', 1)
-							->where('session', session_id())				
-							->get()
-							->result_array();
-		echo 'data_1 = ';
-		foreach($item1 as $item)
-        {
-            $arr1[] = $item['atribut1'];
-            echo $item['atribut1'];
-			echo ' | ';
-		}
-		echo '<br>';
-		echo 'data_2 = ';
-		foreach ($item2 as $item) {
-			$arr2[] = $item['atribut2'];
-			$arr3[] = $item['atribut2'];
-			echo $item['atribut2'];
-			echo ' | ';
-		}
-		echo '<hr>';
-		foreach ($arr1 as $x) {
-			foreach ($arr2 as $y) {
-				foreach ($arr3 as $z) {					
-					if ($x === $y && $y === $z && $x === $z) {
-						continue;
-					}
-					$a = $x.','.$y.','.$z;
-					$b = $x.','.$z.','.$y;
-					$c = $a <=> $b;
-					if ($c == 1) {
-						continue;
-					}
-					echo $a;
-					echo '<br>';
-				}
-			}
-		}
+    }
 
-	}
-	public function iden($arr1,$arr2)
-	{
-		sort( $arr1 );
-		sort( $arr2 );
-		return $arr1 == $arr2;
-	}
+    public function get_variasi_itemset3($array_itemset3, $item1, $item2, $item3, $item4) {
+        $return = array();
+        
+        $return1 = array();
+        if(!in_array(strtoupper($item1), array_map('strtoupper', $return1))){
+            $return1[] = $item1;
+        }
+        if(!in_array(strtoupper($item2), array_map('strtoupper', $return1))){
+            $return1[] = $item2;
+        }
+        if(!in_array(strtoupper($item3), array_map('strtoupper', $return1))){
+            $return1[] = $item3;
+        }
+        
+        $return2 = array();
+        if(!in_array(strtoupper($item1), array_map('strtoupper', $return2))){
+            $return2[] = $item1;
+        }
+        if(!in_array(strtoupper($item2), array_map('strtoupper', $return2))){
+            $return2[] = $item2;
+        }
+        if(!in_array(strtoupper($item4), array_map('strtoupper', $return2))){
+            $return2[] = $item4;
+        }
+        
+        $return3 = array();
+        if(!in_array(strtoupper($item1), array_map('strtoupper', $return3))){
+            $return3[] = $item1;
+        }
+        if(!in_array(strtoupper($item3), array_map('strtoupper', $return3))){
+            $return3[] = $item3;
+        }
+        if(!in_array(strtoupper($item4), array_map('strtoupper', $return3))){
+            $return3[] = $item4;
+        }
+        
+        $return4 = array();
+        if(!in_array(strtoupper($item2), array_map('strtoupper', $return4))){
+            $return4[] = $item2;
+        }
+        if(!in_array(strtoupper($item3), array_map('strtoupper', $return4))){
+            $return4[] = $item3;
+        }
+        if(!in_array(strtoupper($item4), array_map('strtoupper', $return4))){
+            $return4[] = $item4;
+        }
+        
+        if(count($return1)==3){
+            if(!is_exist_variasi_on_itemset3($return, $return1)){
+                if(!is_exist_variasi_on_itemset3($array_itemset3, $return1)){
+                    $return[] = $return1;
+                }
+            }
+        }
+        if(count($return2)==3){
+            if(!is_exist_variasi_on_itemset3($return, $return2)){
+                if(!is_exist_variasi_on_itemset3($array_itemset3, $return2)){
+                    $return[] = $return2;
+                }
+            }
+        }
+        if(count($return3)==3){
+            if(!is_exist_variasi_on_itemset3($return, $return3)){
+                if(!is_exist_variasi_on_itemset3($array_itemset3, $return3)){
+                    $return[] = $return3;
+                }
+            }
+        }
+        if(count($return4)==3){
+            if(!is_exist_variasi_on_itemset3($return, $return4)){
+                if(!is_exist_variasi_on_itemset3($array_itemset3, $return4)){
+                    $return[] = $return4;
+                }
+            }
+        }
+        return $return;
+    }
+    
+    public function is_exist_variasi_on_itemset3($array, $tiga_variasi){
+        $return = false;
+        
+        foreach ($array as $key => $value) {
+            $jml=0;
+            foreach ($value as $key1 => $val1) {
+                foreach ($tiga_variasi as $key2 => $val2) {
+                    if(strtoupper($val1) == strtoupper($val2)){
+                        $jml++;
+                    }
+                }
+            }
+            if($jml==3){
+                $return=true;
+                break;
+            }
+        }
+        
+        return $return;
+    }
 }
