@@ -180,11 +180,163 @@ class Minings extends CI_Controller {
         return $count;
     }
 
-    public function mining_process($min_support, $min_confidence, $id_process)
+    public function hitung_confidence($supp_xuy, $min_support, $min_confidence,
+    $atribut1, $atribut2, $atribut3, $dataTransaksi, $jumlah_transaksi)
     {
+        $jml_itemset2 = $this->jumlah_itemset2($dataTransaksi, $atribut1, $atribut2);
+        $nilai_support_x = ($jml_itemset2/$jumlah_transaksi) * 100;
+
+        $kombinasi1 = $atribut1." , ".$atribut2;
+        $kombinasi2 = $atribut3;
+        $supp_x = $nilai_support_x;//$row1_['support'];
+        $conf = ($supp_xuy/$supp_x)*100;
+        //lolos seleksi min confidence itemset3
+        $lolos = ($conf >= $min_confidence)? 1:0;
+        
+        //hitung korelasi lift
+        $jumlah_kemunculanAB = $this->jumlah_itemset3($dataTransaksi, $atribut1, $atribut2, $atribut3);
+        $PAUB = $jumlah_kemunculanAB/$jumlah_transaksi;
+        
+        $jumlah_kemunculanA = $this->jumlah_itemset2($dataTransaksi, $atribut1, $atribut2);
+        $jumlah_kemunculanB = $this->jumlah_itemset1($dataTransaksi, $atribut3);
+        
+        //$nilai_uji_lift = $PAUB / $jumlah_kemunculanA * $jumlah_kemunculanB;
+        $nilai_uji_lift = $PAUB / (($jumlah_kemunculanA/$jumlah_transaksi) * ($jumlah_kemunculanB/$jumlah_transaksi));
+        $korelasi_rule = ($nilai_uji_lift<1)?"korelasi negatif":"korelasi positif";
+        if($nilai_uji_lift==1){
+            $korelasi_rule = "tidak ada korelasi";
+        }
+        
+        $data_confidence = [
+            'kombinasi1' => $kombinasi1,
+            'kombinasi2' => $kombinasi2,
+            'support_xuy' => $supp_xuy,
+            'support_x' => $supp_x,
+            'confidence' => $conf,
+            'lolos' => $lolos,
+            'min_support' => $min_support,
+            "nilai_uji_lift" => $nilai_uji_lift,
+            "korelasi_rule" => $korelasi_rule,
+            "jumlah_a" => $jumlah_kemunculanA,
+            "jumlah_b" => $jumlah_kemunculanB,
+            "jumlah_ab" => $jumlah_kemunculanAB,
+            "px" => ($jumlah_kemunculanA/$jumlah_transaksi),
+            "py" => ($jumlah_kemunculanB/$jumlah_transaksi),
+            "pxuy" => $PAUB,
+            "from_itemset"=>3,
+            'session'   => session_id(),
+        ];
+        return $this->db->insert('confidence', $data_confidence);
+    }
+
+    public function hitung_confidence1($supp_xuy, $min_support, $min_confidence,
+    $atribut1, $atribut2, $atribut3, $dataTransaksi, $jumlah_transaksi)
+    {
+        $jml_itemset1 = $this->jumlah_itemset1($dataTransaksi, $atribut1);
+        $nilai_support_x = ($jml_itemset1/$jumlah_transaksi) * 100;
+
+        $kombinasi1 = $atribut1;
+        $kombinasi2 = $atribut2." , ".$atribut3;
+        $supp_x = $nilai_support_x;//$row4_['support'];
+        $conf = ($supp_xuy/$supp_x)*100;
+        //lolos seleksi min confidence itemset3
+        $lolos = ($conf >= $min_confidence)? 1:0;
+        
+        //hitung korelasi lift
+        $jumlah_kemunculanAB = $this->jumlah_itemset3($dataTransaksi, $atribut1, $atribut2, $atribut3);
+        $PAUB = $jumlah_kemunculanAB/$jumlah_transaksi;
+
+        $jumlah_kemunculanA = $this->jumlah_itemset1($dataTransaksi, $atribut1);
+        $jumlah_kemunculanB = $this->jumlah_itemset2($dataTransaksi, $atribut2, $atribut3);
+
+        $nilai_uji_lift = $PAUB / (($jumlah_kemunculanA/$jumlah_transaksi) * ($jumlah_kemunculanB/$jumlah_transaksi));
+        $korelasi_rule = ($nilai_uji_lift<1)?"korelasi negatif":"korelasi positif";
+        if($nilai_uji_lift==1){
+            $korelasi_rule = "tidak ada korelasi";
+        }
+
+        $data_confidence = [
+            "kombinasi1" => $kombinasi1,
+            "kombinasi2" => $kombinasi2,
+            "support_xUy" => $supp_xuy,
+            "support_x" => $supp_x,
+            "confidence" => $conf,
+            "lolos" => $lolos,
+            "min_support" => $min_support,
+            "min_confidence" => $min_confidence,
+            "nilai_uji_lift" => $nilai_uji_lift,
+            "korelasi_rule" => $korelasi_rule,
+            "jumlah_a" => $jumlah_kemunculanA,
+            "jumlah_b" => $jumlah_kemunculanB,
+            "jumlah_ab" => $jumlah_kemunculanAB,
+            "px" => ($jumlah_kemunculanA/$jumlah_transaksi),
+            "py" => ($jumlah_kemunculanB/$jumlah_transaksi),
+            "pxuy" => $PAUB,
+            "from_itemset"=>3,
+            'session'   => session_id(),
+        ];
+        return $this->db->insert('confidence', $data_confidence);
+    }
+
+    public function hitung_confidence2($supp_xuy, $min_support, $min_confidence,
+    $atribut1, $atribut2, $dataTransaksi, $jumlah_transaksi)
+    {
+        $jml_itemset1 = $this->jumlah_itemset1($dataTransaksi, $atribut1);
+        $nilai_support_x = ($jml_itemset1/$jumlah_transaksi) * 100;
+
+        $kombinasi1 = $atribut1;
+        $kombinasi2 = $atribut2;
+        $supp_x = $nilai_support_x;//$row1_['support'];
+        $conf = ($supp_xuy/$supp_x)*100;
+        //lolos seleksi min confidence itemset3
+        $lolos = ($conf >= $min_confidence)? 1:0;
+        
+        //hitung korelasi lift
+        $jumlah_kemunculanAB = $this->jumlah_itemset2($dataTransaksi, $atribut1, $atribut2);
+        $PAUB = $jumlah_kemunculanAB/$jumlah_transaksi;
+
+        $jumlah_kemunculanA = $this->jumlah_itemset1($dataTransaksi, $atribut1);
+        $jumlah_kemunculanB = $this->jumlah_itemset1($dataTransaksi, $atribut2);
+
+        $nilai_uji_lift = $PAUB / (($jumlah_kemunculanA/$jumlah_transaksi) * ($jumlah_kemunculanB/$jumlah_transaksi));
+        $korelasi_rule = ($nilai_uji_lift<1)?"korelasi negatif":"korelasi positif";
+        if($nilai_uji_lift==1){
+            $korelasi_rule = "tidak ada korelasi";
+        }
+
+        $data_confidence = [
+            "kombinasi1" => $kombinasi1,
+            "kombinasi2" => $kombinasi2,
+            "support_xUy" => $supp_xuy,
+            "support_x" => $supp_x,
+            "confidence" => $conf,
+            "lolos" => $lolos,
+            "min_support" => $min_support,
+            "min_confidence" => $min_confidence,
+            "nilai_uji_lift" => $nilai_uji_lift,
+            "korelasi_rule" => $korelasi_rule,
+            "jumlah_a" => $jumlah_kemunculanA,
+            "jumlah_b" => $jumlah_kemunculanB,
+            "jumlah_ab" => $jumlah_kemunculanAB,
+            "px" => ($jumlah_kemunculanA/$jumlah_transaksi),
+            "py" => ($jumlah_kemunculanB/$jumlah_transaksi),
+            "pxuy" => $PAUB,
+            "from_itemset"=>2,
+            'session'   => session_id(),
+        ];
+        return $this->db->insert('confidence', $data_confidence);
+    }
+
+    public function mining_process()
+    {
+        // $min_support, $min_confidence, $id_process
+        $min_support = $this->input->get('min_sup');
+        $min_confidence = $this->input->get('min_conf');
+        $id_process = 1;
+
         $transaksi  = $this->mining->data_itemset()->result_array();
         $dataTransaksi = $item_list = array();
-        $jumlah_transaksi = $this->mining->data_itemset()->num_rows();
+        $jumlah_transaksi = $this->mining->jumlah_transaksi()->num_rows();
         $min_support_relative = ($min_support/$jumlah_transaksi)*100;
         $x = 0;
         foreach($transaksi as $trans)
@@ -222,9 +374,9 @@ class Minings extends CI_Controller {
         foreach($item_list as $key => $item)
         {
             $jumlah = $this->jumlah_itemset1($dataTransaksi, $item);
-            $support = ($jumlah/$jumlah_transaksi)*100;
-            $lolos = ($support >= $min_support_relative) ? "1" : "0";
-            // $valueIn[] = "('$item','$jumlah','$support','$lolos','$id_process')";
+            $support = round(($jumlah/$jumlah_transaksi)*100);
+            // $lolos = ($support >= $min_support_relative) ? "1" : "0";
+            $lolos  = $support > $min_support ? "1" : "0";
             if($lolos){
                 $itemset1[] = $item;//item yg lolos itemset1
                 $jumlahItemset1[] = $jumlah;
@@ -245,17 +397,9 @@ class Minings extends CI_Controller {
                 'support'   => $support,
                 'keterangan'     => (($lolos==1) ? "Lolos" : "Tidak Lolos"),
             ];
-            // echo "<tr>";
-            // echo "<td>" . $x . "</td>";
-            // echo "<td>" . $item . "</td>";
-            // echo "<td>" . $jumlah . "</td>";
-            // echo "<td>" . $support . "</td>";
-            // echo "<td>" . (($lolos==1)?"Lolos":"Tidak Lolos") . "</td>";
-            // echo "</tr>";
-            // $x++;
         }
         $value_insert = $valueIn;
-        // $insert_itemset1 = $this->db->insert_batch('itemset1', $value_insert);
+        $insert_itemset1 = $this->db->insert_batch('itemset1', $value_insert);
 
         // Konfigurasi ItemSet2
         $NilaiAtribut1 = $NilaiAtribut2 = array();
@@ -271,15 +415,15 @@ class Minings extends CI_Controller {
                 if (!empty($variance1) && !empty($variance2)) {
                     if ($variance1 != $variance2) {
                         if(!$this->is_exist_variasi_itemset($NilaiAtribut1, $NilaiAtribut2, $variance1, $variance2)) {
-                            //$jml_itemset2 = get_count_itemset2($db_object, $variance1, $variance2, $start_date, $end_date);
                             $jml_itemset2 = $this->jumlah_itemset2($dataTransaksi, $variance1, $variance2);
                             $NilaiAtribut1[] = $variance1;
                             $NilaiAtribut2[] = $variance2;
     
-                            $support2 = ($jml_itemset2/$jumlah_transaksi) * 100;
-                            $lolos = ($support2 >= $min_support_relative) ? 1:0;
+                            $support2 = round(($jml_itemset2/$jumlah_transaksi) * 100);
+                            // $lolos = ($support2 >= $min_support_relative) ? 1:0;
+
+                            $lolos  = $support2 > $min_support ? "1" : "0";
                             
-                            // $valueIn_itemset2[] = "('$variance1','$variance2','$jml_itemset2','$support2','$lolos','$id_process')";
                             if($lolos){
                                 $itemset2_var1[] = $variance1;
                                 $itemset2_var2[] = $variance2;
@@ -309,38 +453,16 @@ class Minings extends CI_Controller {
             }
         }
         $value_insert_itemset2 = $valueIn_itemset2;
-        // $insert_itemset2 = $this->db->insert_batch('itemset2', $value_insert_itemset2);
+        $insert_itemset2 = $this->db->insert_batch('itemset2', $value_insert_itemset2);
 
-        // print_r($itemset2_var1);
         // Konfigurasi ItemSet3
         $tigaVariasiItem = $valueIn_itemset3 = array();
         $itemset3_var1 = $itemset3_var2 = $itemset3_var3 = $jumlahItemset3 = $supportItemset3 = array();
         $no = 1;
-        // $a = 0;
-        // while ($a < count($itemset2_var1)) 
-        // {
-        //     $b = 0;
-        //     while ($b < count($itemset2_var1)) 
-        //     {
-        //         if($a != $b)
-        //         {
-        //             $itemset1a = $itemset2_var1[$a];
-        //             $itemset1b = $itemset2_var1[$b];
-
-        //             $itemset2a = $itemset2_var2[$a];
-        //             $itemset2b = $itemset2_var2[$b];
-        //             print_r($itemset1b);
-        //         }
-        //         $b++;
-        //     }
-        //     $a++;
-        // }
         for($a=0; $a < count($itemset2_var1); $a++)
         {
-            // echo $a."<br>";
             for($b=0; $b < count($itemset2_var1); $b++)
             {
-                // echo $b."<br>";
                 if($a != $b)
                 {
                     $itemset1a = $itemset2_var1[$a];
@@ -377,12 +499,11 @@ class Minings extends CI_Controller {
                                 }
                                 
                                 //jumlah item set3 dan menghitung supportnya
-                                //$jml_itemset3 = get_count_itemset3($db_object, $itemset1, $itemset2, $itemset3, $start_date, $end_date);
                                 $jml_itemset3 = $this->jumlah_itemset3($dataTransaksi, $itemset1, $itemset2, $itemset3);
-                                $support3 = ($jml_itemset3/$jumlah_transaksi) * 100;
-                                $lolos = ($support3 >= $min_support_relative)? 1:0;
-                                
-                                // $valueIn_itemset3[] = "('$itemset1','$itemset2','$itemset3','$jml_itemset3','$support3','$lolos','$id_process')";
+                                $support3 = round(($jml_itemset3/$jumlah_transaksi) * 100);
+                                // $lolos = ($support3 >= $min_support_relative)? 1:0;
+
+                                $lolos = $support3 > $min_support ? "1" : "0";
                                 
                                 if($lolos){
                                     $itemset3_var1[] = $itemset1;
@@ -412,25 +533,75 @@ class Minings extends CI_Controller {
                                     'support'       => $support3,
                                     'keterangan'    => (($lolos==1) ? "Lolos" : "Tidak Lolos"),
                                 ];
-                            
-                                // echo "<tr>";
-                                // echo "<td>" . $no . "</td>";
-                                // echo "<td>" . $itemset1 . "</td>";
-                                // echo "<td>" . $itemset2 . "</td>";
-                                // echo "<td>" . $itemset3 . "</td>";
-                                // echo "<td>" . $jml_itemset3 . "</td>";
-                                // echo "<td>" . $support3 . "</td>";
-                                // echo "<td>" . (($lolos==1)?"Lolos":"Tidak Lolos") . "</td>";
-                                // echo "</tr>";
-                                // $no++;
                             }
                         }
                     }
                 }
             }
         }
-        // print_R($valueIn_itemset3);
         $value_insert_itemset3 = $valueIn_itemset3;
-        // $insert_itemset3 = $this->db->insert_batch('itemset3', $value_insert_itemset3);
+        $insert_itemset3 = $this->db->insert_batch('itemset3', $value_insert_itemset3);
+
+        // Confidence
+        $itemset3_lolos         = $this->mining->data_itemset3_lolos(session_id());
+        $jumlah_itemset3_lolos  = $itemset3_lolos->num_rows(); 
+        if($jumlah_itemset3_lolos > 0){
+            $confidence_from_itemset = 3;
+
+            foreach($itemset3_lolos->result_array() as $row_3)
+            {
+                $atribut1 = $row_3['atribut1'];
+                $atribut2 = $row_3['atribut2'];
+                $atribut3 = $row_3['atribut3'];
+                $supp_xuy = $row_3['support'];
+                
+                //1,2 => 3
+                $this->hitung_confidence($supp_xuy, $min_support, $min_confidence, 
+                        $atribut1, $atribut2, $atribut3, $dataTransaksi, $jumlah_transaksi);
+                
+                //2,3 => 1
+                $this->hitung_confidence($supp_xuy, $min_support, $min_confidence, 
+                        $atribut2, $atribut3, $atribut1, $dataTransaksi, $jumlah_transaksi);
+                
+                //3,1 => 2
+                $this->hitung_confidence($supp_xuy, $min_support, $min_confidence, 
+                        $atribut3, $atribut1, $atribut2, $dataTransaksi, $jumlah_transaksi);
+                
+                
+                //1 => 3,2
+                $this->hitung_confidence1($supp_xuy, $min_support, $min_confidence, 
+                        $atribut1, $atribut3, $atribut2, $dataTransaksi, $jumlah_transaksi);
+                
+                //2 => 1,3
+                $this->hitung_confidence1($supp_xuy, $min_support, $min_confidence,
+                        $atribut2, $atribut1, $atribut3, $dataTransaksi, $jumlah_transaksi);
+                
+                //3 => 2,1
+                $this->hitung_confidence1($supp_xuy, $min_support, $min_confidence,
+                        $atribut3, $atribut2, $atribut1, $dataTransaksi, $jumlah_transaksi);  
+            }
+        }
+
+        //dari itemset 2
+        $itemset2_lolos     = $this->mining->data_itemset2_lolos(session_id());
+        $jumlah_itemset2_lolos  = $itemset2_lolos->num_rows();
+        
+        if($jumlah_itemset2_lolos > 0){
+            $confidence_from_itemset = 2;
+
+            foreach($itemset2_lolos->result_array() as $row_2)
+            {
+                $atribut1 = $row_2['atribut1'];
+                $atribut2 = $row_2['atribut2'];
+                $supp_xuy = $row_2['support'];
+                
+                //1 => 2
+                $this->hitung_confidence2($supp_xuy, $min_support, $min_confidence, $atribut1, $atribut2, $dataTransaksi, $jumlah_transaksi);
+                
+                //2 => 1
+                $this->hitung_confidence2($supp_xuy, $min_support, $min_confidence, $atribut2, $atribut1, $dataTransaksi, $jumlah_transaksi);
+            }
+        }
+        redirect(base_url('mining/hasil'), 'refresh');
     }
 }

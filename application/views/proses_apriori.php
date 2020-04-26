@@ -5,7 +5,6 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Samakita | Proses Apriori</title>
-	<!-- Tell the browser to be responsive to screen width -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<?php $this->load->view('include/css');?>
 
@@ -71,7 +70,7 @@
 								</div>
 								<!-- /.card-header -->
 								<!-- form start -->
-								<form action="<?php echo base_url('mining'); ?>" method="GET" role="form">
+								<form action="<?php echo base_url('minings/mining_process'); ?>" method="GET" role="form">
 									<div class="card-body">
 										<div class="row">
 											<div class="col-md-6 col-sm-6 form-group">

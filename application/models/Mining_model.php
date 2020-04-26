@@ -24,9 +24,10 @@ class Mining_model extends CI_Model {
 
     public function jumlah_transaksi()
     {
-        $this->db->select('COUNT(transaksi.no_inv) AS total');
-        $this->db->from('transaksi');
-        return $this->db->get();
+        return $this->db->get('transaksi');
+        // $this->db->select('COUNT(transaksi.no_inv) AS total');
+        // $this->db->from('transaksi');
+        // return $this->db->get();
     }
 
     public function data_itemset1($sesi)
@@ -41,7 +42,7 @@ class Mining_model extends CI_Model {
     {
         return $this->db->select('id, atribut, jumlah, support, input_support')
                         ->from('itemset1')
-                        ->where('lolos', 1)
+                        ->where('lolos', 'Lolos')
                         ->where('session', $sesi)
                         ->get();
     }
@@ -58,7 +59,42 @@ class Mining_model extends CI_Model {
     {
         return $this->db->select('id, atribut1, atribut2, jumlah, support, input_support')
                         ->from('itemset2')
-                        ->where('lolos', 1)
+                        ->where('lolos', 'Lolos')
+                        ->where('session', $sesi)
+                        ->get();
+    }
+
+    public function data_itemset3($sesi)
+    {
+        return $this->db->select('*')
+                        ->from('itemset3')
+                        ->where('session', $sesi)
+                        ->get();
+    }
+
+    public function data_itemset3_lolos($sesi)
+    {
+        return $this->db->select('*')
+                        ->from('itemset3')
+                        ->where('lolos', 'Lolos')
+                        ->where('session', $sesi)
+                        ->get();
+    }
+
+    public function confidence($itemset, $sesi)
+    {
+        return $this->db->select('id, kombinasi1, kombinasi2, confidence, from_itemset')
+                        ->from('confidence')
+                        ->where('from_itemset', $itemset)
+                        ->where('session', $sesi)
+                        ->get();
+    }
+
+    public function confidence_lolos($sesi)
+    {
+        return $this->db->select('id, kombinasi1, kombinasi2, confidence, from_itemset, korelasi_rule')
+                        ->from('confidence')
+                        ->where('lolos', '1')
                         ->where('session', $sesi)
                         ->get();
     }

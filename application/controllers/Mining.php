@@ -34,31 +34,32 @@ class Mining extends CI_Controller {
             $data_insert[]    =   [
                 'atribut'   => $ja['items'],
                 'jumlah'    => $ja['jumlah_items'],
-                'support'   => $supp = round($ja['jumlah_items']/$jumlah_transaksi['total']*100, 2),
+                'support'   => $supp = round($ja['jumlah_items']/$jumlah_transaksi['no_inv']*100, 2),
                 'input_support' => $this->input->post('min_sup'),
                 'lolos'     => $supp < $this->input->post('min_sup') ? 0 : 1,
                 'session'   => session_id()
             ];
         }
+        print_r($data_insert);
         
-        if(!empty($data_insert))
-        {
-            $this->db->insert_batch('itemset1', $data_insert);
-        }
+        // if(!empty($data_insert))
+        // {
+        //     $this->db->insert_batch('itemset1', $data_insert);
+        // }
 
         // Set Session
-        $session    = [
-            'min_sup'   => $this->input->post('min_sup'),
-            'min_conf'  => $this->input->post('min_conf'),
-            'total_transaksi'   => $jumlah_transaksi['total'],
-            'sesi_id'   => session_id()
-        ];
-        $this->session->set_userdata($session);
+        // $session    = [
+        //     'min_sup'   => $this->input->post('min_sup'),
+        //     'min_conf'  => $this->input->post('min_conf'),
+        //     'total_transaksi'   => $jumlah_transaksi['total'],
+        //     'sesi_id'   => session_id()
+        // ];
+        // $this->session->set_userdata($session);
 
         // Proses Itemset 2
-        $this->proses_itemset2();
+        // $this->proses_itemset2();
 
-        redirect(base_url('mining/mining_itemset1'));   
+        // redirect(base_url('mining/mining_itemset1'));   
     }
 
     public function mining_itemset1()
@@ -174,142 +175,39 @@ class Mining extends CI_Controller {
                         ->get()->row_array();
         print_r($a);
     }
-
-    public function tes()
+    
+    public function hasil()
     {
-        $arr1 = ['A','B','C','D','E', 'F'];
-        $arr2 = ['A','B','C','D','E', 'F'];
-        // print_r($arr1);
-
-        for ($i=0; $i < count($arr1); $i++) {
-            for ($j=0; $j < count($arr2); $j++) {
-                $x = $arr1[$i];
-                $y = $arr2[$j];
-                if ($x === $y ) {
-                    continue;
-                }
-                $a = $x.','.$y;
-                $b = $y.','.$x;
-                $c = $a <=> $b;
-                if ($c == 1) {
-                    continue;
-                }
-                echo $a;
-                echo '<br>';
-            } 
-        }
+        $session                = session_id();
+        $itemset1           = $this->mining->data_itemset1($session)->result_array();
+        $itemset1_lolos     = $this->mining->data_itemset1_lolos($session)->result_array();
+        $itemset2           = $this->mining->data_itemset2($session)->result_array();
+        $itemset2_lolos     = $this->mining->data_itemset2_lolos($session)->result_array();
+        $itemset3           = $this->mining->data_itemset3($session)->result_array();
+        $itemset3_lolos     = $this->mining->data_itemset3_lolos($session)->result_array();
+        $confidence2        = $this->mining->confidence('2', $session)->result_array();
+        $confidence3        = $this->mining->confidence('3', $session)->result_array();
+        $confidence_lolos   = $this->mining->confidence_lolos($session)->result_array();
+        $data = [
+            'itemset1'          => $itemset1,
+            'itemset1_lolos'    => $itemset1_lolos,
+            'itemset2'          => $itemset2,
+            'itemset2_lolos'    => $itemset2_lolos,
+            'itemset3'          => $itemset3,
+            'itemset3_lolos'    => $itemset3_lolos,
+            'confidence2'       => $confidence2,
+            'confidence3'       => $confidence3,
+            'confidence_lolos'  => $confidence_lolos
+        ];
+        $this->load->view('hasil', $data);
     }
 
-    public function tes2()
+    public function a()
     {
-        $itemset = $this->db->select('atribut1, atribut2')->from('itemset2')->where('session', session_id())->where('lolos', 1)->distinct()->get()->result_array();
-        $atribut1 = $this->db->select('atribut1')->from('itemset2')->where('session', session_id())->where('lolos', 1)->get()->result_array();
-        $atribut2 = $this->db->select('atribut2')->from('itemset2')->where('session', session_id())->where('lolos', 1)->get()->result_array();
-
-        $tigaVariasi = [];
-        echo "<b>Itemset 3</b><br>";
-        foreach($itemset as $item)
-        {
-            echo $item['atribut1'].", ".$item['atribut2']."<br>";
-            // $arr[] = $item['atribut1'].", ".$item['atribut2'];
-        }
-
-        // for($i=0; $i<count($arr); $i++)
-        // {
-        //     for($j=0; $j<count($arr); $j++)            
-        //     {
-        //         $itemset1a = $arr[$i];
-        //         $itemset1b = $arr[$j];
-        //         if($itemset1a === $itemset1b)
-        //         {
-        //             continue;
-        //         }
-        //         $a = $itemset1a.", ".substr($itemset1b, 6);
-        //         $b = substr($itemset1b, 6).", ".$itemset1a;
-        //         $c = $a <=> $b;
-        //         if($c === 1){
-        //             continue;
-        //         }
-        //         $d = substr($itemset1b, 6).", ".$itemset1a;
-        //         $e = $a <=> $d;
-        //         if($e === 1){
-        //             continue;
-        //         }
-        //         $f = $itemset1b.", ".substr($itemset1a, 0, 4);
-        //         $g = $a <=> $f;
-        //         if($g === 1){
-        //             continue;
-        //         }
-        //         $h = $itemset1a <=> $itemset1b;
-        //         if($h === 1){
-        //             continue;
-        //         }
-        //         // echo $a."<br>";
-        //         $res[] = $a."<br>";
-        //     }
-        // }
-        // $zz = array_unique($res);
-        // foreach($zz as $p)
-        // {
-        //     echo $p;
-        // }
-	}
-	
-	public function tes3()
-	{
-		$item1 = $this->db->select('atribut1')
-							->distinct()
-							->from('itemset2')
-							->where('lolos', 1)
-							->where('session', session_id())				
-							->get()
-							->result_array();
-		$item2 = $this->db->select('atribut2')
-							->distinct()
-							->from('itemset2')
-							->where('lolos', 1)
-							->where('session', session_id())				
-							->get()
-							->result_array();
-		echo 'data_1 = ';
-		foreach($item1 as $item)
-        {
-            $arr1[] = $item['atribut1'];
-            echo $item['atribut1'];
-			echo ' | ';
-		}
-		echo '<br>';
-		echo 'data_2 = ';
-		foreach ($item2 as $item) {
-			$arr2[] = $item['atribut2'];
-			$arr3[] = $item['atribut2'];
-			echo $item['atribut2'];
-			echo ' | ';
-		}
-		echo '<hr>';
-		foreach ($arr1 as $x) {
-			foreach ($arr2 as $y) {
-				foreach ($arr3 as $z) {					
-					if ($x === $y && $y === $z && $x === $z) {
-						continue;
-					}
-					$a = $x.','.$y.','.$z;
-					$b = $x.','.$z.','.$y;
-					$c = $a <=> $b;
-					if ($c == 1) {
-						continue;
-					}
-					echo $a;
-					echo '<br>';
-				}
-			}
-		}
-
-	}
-	public function iden($arr1,$arr2)
-	{
-		sort( $arr1 );
-		sort( $arr2 );
-		return $arr1 == $arr2;
-	}
+        // $min_sup = 9;
+        // $min_conf = 15;
+        // $jml_transaksi = $this->db->get('itemset')->num_rows();
+        // echo $min_sup/$jml_transaksi;
+        echo session_id();
+    }
 }

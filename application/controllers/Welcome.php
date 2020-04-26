@@ -65,39 +65,21 @@ class Welcome extends CI_Controller
         echo json_encode($data);
     }
 
-    // function get()
-    // {
-    // 	$unique = $this->input->get('id');
-    // 	$data = $this->data_transaksi($unique);
-    // 	echo json_encode($data);
-    // }
     public function pros_apr()
     {
         session_destroy();
-        $dataquery = $this
-            ->data_model
-            ->data_apriori()
-            ->result_array();
-        $total_items = $this
-            ->data_model
-            ->count_items()
-            ->result_array();
-        $total_transaksi = $this
-            ->data_model
-            ->total_transaksi()
-            ->row_array();
+        $dataquery = $this->data_model->data_apriori()->result_array();
+        $total_items = $this->data_model->count_items()->result_array();
+        $total_transaksi = $this->data_model->total_transaksi()->row_array();
 
         $data = array(
             'data' => $dataquery,
             'total_items' => $total_items,
             'total_transaksi' => $total_transaksi
         );
-        // print_r($data['total_items']);
-        // print_r($data['total_transaksi']);
-        $this
-            ->load
-            ->view('proses_apriori', $data);
+        $this->load->view('proses_apriori', $data);
     }
+
     public function table_itemset()
     {
         $total_items = $this
@@ -117,6 +99,7 @@ class Welcome extends CI_Controller
             ->load
             ->view('table_itemset', $data);
     }
+    
     public function hasil_apr()
     {
         $this
