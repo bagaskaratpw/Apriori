@@ -240,7 +240,7 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        <table class="table table-bordered" id="datatable3">
+                                        <table class="table table-bordered" id="datatable5">
                                             <thead>
                                                 <tr>
                                                     <th>Atribut 1</th>
@@ -286,7 +286,7 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        <table class="table table-bordered" id="datatable4">
+                                        <table class="table table-bordered" id="datatable6">
                                             <thead>
                                                 <tr>
                                                     <th>Atribut 1</th>
@@ -336,7 +336,7 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        <table class="table table-bordered" id="datatable6">
+                                        <table class="table table-bordered" id="datatable7">
                                             <thead>
                                                 <tr>
                                                     <th>Item</th>
@@ -370,7 +370,7 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        <table class="table table-bordered" id="datatable6">
+                                        <table class="table table-bordered" id="datatable8">
                                             <thead>
                                                 <tr>
                                                     <th>Item</th>
@@ -404,7 +404,7 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        <table class="table table-bordered" id="datatable7">
+                                        <table class="table table-bordered" id="datatable9">
                                             <thead>
                                                 <tr>
                                                     <th>X => Y</th>
@@ -467,6 +467,8 @@
                 $('#datatable5').DataTable();
                 $('#datatable6').DataTable();
                 $('#datatable7').DataTable();
+                $('#datatable8').DataTable();
+                $('#datatable9').DataTable();
             });
         </script>
 
