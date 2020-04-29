@@ -436,6 +436,30 @@
                     </div>
                     <!-- Confidence -->
 
+                    <!-- Hasil Analisa -->
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    Hasil Analisa
+                                </div>
+                                <div class="card-body">
+                                    <table class="table table-striped">
+                                        <?php $i=1; foreach($confidence_lolos as $c_lolos): ?>
+                                        <tr>
+                                            <td>
+                                                <?php echo $i++; ?>
+                                                Jika pelanggan membeli <?php echo $c_lolos['kombinasi1']; ?>. Maka pelanggan juga akan membeli <?php echo $c_lolos['kombinasi2']; ?>.
+                                            </td>
+                                        </tr>
+                                        <?php endforeach; ?>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Hasil Analisa -->
+
                 </div>
 
             </section>
